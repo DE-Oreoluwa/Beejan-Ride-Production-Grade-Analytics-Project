@@ -2,11 +2,13 @@
 
 ## Architecture diagram
 Raw → Staging → Intermediate → Mart
+
 ![Alt text](https://github.com/DE-Oreoluwa/Beejan-Ride-Production-Grade-Analytics-Project/blob/1a2b196feb09175d7fe70a2ee0b19b0f6f40af1a/Architectural%20Diagram.png)
 
 ## ERD
 The mart layer follows a star schema design where `fact_trips` acts as the central fact table connected to other dimension tables for analytical queries.
-`ERD.png`
+
+![Alt text](https://github.com/DE-Oreoluwa/Beejan-Ride-Production-Grade-Analytics-Project/blob/bab61bd83cdb818256078e23d57b63893901d594/ERD.png)
 
 ## Data flow explanation 
 The project used Airbyte to extract data from Postgres (Source) and loaded it in BigQuery (Destination) warehouse.
