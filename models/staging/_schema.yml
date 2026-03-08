@@ -1,0 +1,236 @@
+version: 2
+
+models:
+  - name: stg_cities
+    description: This model cleans and deduplicates the raw cities data.
+    columns:
+      - name: city_id
+        description: The unique identifier for each city (primary key).
+        data_tests:
+          - unique
+          - not_null
+      - name: country
+        description: The country where the cities are located.
+        data_tests:
+          - not_null
+      - name: city_name
+        description: The names of each city.
+        data_tests:
+          - not_null
+      - name: launch_date
+        description: The date when the city was launched.
+  - name: stg_driver_status_events
+    description: This model cleans and deduplicates the raw driver status events data.
+    columns:
+      - name: event_id
+        description: The unique identifier for each driver status event (primary key).
+        data_tests:
+          - unique
+          - not_null
+      - name: driver_id
+        description: The unique identifier for each driver.
+        data_tests:
+          - not_null
+      - name: status
+        description: The status of the driver at the time of the event (e.g., "active", "inactive").
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments: 
+                values: ['online', 'offline']
+      - name: event_timestamp
+        description: The timestamp when the driver status event occurred.
+        data_tests:
+          - not_null
+  - name: stg_drivers
+    description: This model cleans and deduplicates the raw drivers data.
+    columns:
+      - name: driver_id
+        description: The unique identifier for each driver (primary key).
+        data_tests:
+          - unique
+          - not_null
+      - name: city_id
+        description: The unique identifier for the city where the driver operates.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_cities')
+                field: city_id
+      - name: vehicle_id
+        description: The unique identifier for the vehicle assigned to the driver.
+        data_tests:
+          - not_null
+      - name: onboarding_date
+        description: The date when the driver was onboarded.
+        data_tests:
+          - not_null
+      - name: driver_status
+        description: The current status of the driver (e.g., "active", "inactive").
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments: 
+                values: ['active', 'inactive', 'suspended']
+      - name: rating
+        description: The rating of the driver.
+        data_tests:
+          - not_null
+      - name: created_at
+        description: The timestamp when the driver record was created.
+        data_tests:
+          - not_null
+      - name: updated_at
+        description: The timestamp when the driver record was last updated.
+        data_tests:
+          - not_null
+  - name: stg_payments
+    description: This model cleans and deduplicates the raw payments data.
+    columns:
+      - name: payment_id
+        description: The unique identifier for each payment (primary key).
+        data_tests:
+          - unique
+          - not_null
+      - name: trip_id
+        description: The unique identifier for the trip associated with the payment.
+        data_tests:
+          - not_null
+      - name: payment_status
+        description: The status of the payment
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments: 
+                values: ['success', 'failed']
+      - name: payment_provider
+        description: The provider of the payment
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments: 
+                values: ['paypal', 'stripe']
+      - name: amount
+        description: The amount of money paid.
+        data_tests:
+          - not_null
+      - name: fee
+        description: The fee charged for the payment.
+        data_tests:
+          - not_null
+      - name: currency
+        description: The currency in which the payment was made.
+        data_tests:
+          - not_null
+      - name: created_at
+        description: The timestamp when the payment record was created.
+        data_tests:
+          - not_null
+  - name: stg_riders
+    description: This model cleans and deduplicates the raw riders data.
+    columns:
+      - name: rider_id
+        description: The unique identifier for each rider (primary key).
+        data_tests:
+          - unique
+          - not_null
+      - name: country
+        description: The country where the rider is based.
+        data_tests:
+          - not_null
+      - name: referral_code
+        description: The referral code used by the rider.
+      - name: created_at
+        description: The timestamp when the rider record was created.
+        data_tests:
+          - not_null
+      - name: signup_date
+        description: The date when the rider signed up.
+        data_tests:
+          - not_null
+  - name: stg_trips
+    description: This model cleans and deduplicates the raw trips data.
+    columns:
+      - name: trip_id
+        description: The unique identifier for each trip (primary key).
+        data_tests:
+          - unique
+          - not_null
+      - name: rider_id
+        description: The unique identifier for the rider associated with the trip.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_riders')
+                field: rider_id
+      - name: driver_id
+        description: The unique identifier for the driver associated with the trip.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_drivers')
+                field: driver_id
+      - name: vehicle_id
+        description: The unique identifier for the vehicle associated with the trip.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_vehicles')
+                field: vehicle_id
+      - name: city_id
+        description: The unique identifier for the city where the trip took place.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_cities')
+                field: city_id
+      - name: requested_at
+        description: The timestamp when the trip was requested.
+        data_tests:
+          - not_null
+      - name: dropoff_at
+        description: The timestamp when the trip was dropped off.
+        data_tests:
+          - not_null
+      - name: trip_status
+        description: The status of the trip.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['completed', 'cancelled']
+      - name: estimated_fare
+        description: The estimated fare for the trip.
+        data_tests:
+          - not_null
+      - name: actual_fare
+        description: The actual fare charged for the trip.
+        data_tests:
+          - not_null
+      - name: surge_multiplier
+        description: The surge multiplier applied to the trip amount.
+        data_tests:
+          - not_null
+      - name: payment_method
+        description: The payment method used for the trip.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['card', 'cash', 'wallet']
+      - name: is_corporate
+        description: Whether the trip is corporate or not.
+        data_tests:
+          - not_null
+      - name: created_at
+        description: The timestamp when the trip record was created.
+        data_tests:
+          - not_null
+      - name: updated_at
+        description: The timestamp when the trip record was last updated.
+        data_tests:
+          - not_null

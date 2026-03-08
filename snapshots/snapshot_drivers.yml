@@ -1,0 +1,14 @@
+version: 2
+
+snapshots:
+  - name: snapshot_drivers
+    description: "SCD Type 2 snapshot tracking driver changes"
+
+    config:
+      target_schema: snapshots
+      unique_key: driver_id
+      strategy: check
+      check_cols:
+        - driver_status
+        - vehicle_id
+        - rating

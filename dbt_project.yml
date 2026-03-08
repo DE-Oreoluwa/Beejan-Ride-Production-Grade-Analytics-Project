@@ -1,0 +1,28 @@
+
+name: 'dbt_beejanproject' # name of the project
+version: '1.0.0' # version of the project which can be used for version control and dependency management
+
+profile: 'dbt_beejanproject' # This setting configures which "profile" dbt uses for this project. Profiles are defined in the profiles.yml file and contain connection information for data warehouse.
+
+# These configurations specify where dbt should look for different types of files.
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:         # directories to be removed by `dbt clean`
+  - "target"
+  - "dbt_packages"
+
+
+# Configuring models for materialization of output as table or view.
+models:
+  dbt_beejanproject:
+    staging:
+      +materialized: view
+    intermediate:
+      +materialized: view
+    mart: 
+      +materialized: table

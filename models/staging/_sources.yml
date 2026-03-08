@@ -1,0 +1,63 @@
+sources:
+    - name: dbt_project_486613_beejan_dataset
+      description: This is the dataset for beejan ride's project from bigquery
+      database: dbt-project-486613
+      schema: dbt_project_486613_beejan_dataset
+      tables:
+          - name: cities_raw
+            description: Record of cities where beejan operates.
+            columns:
+              - name: city_id
+                description: Primary key of the cities table
+                data_tests:
+                  - unique
+                  - not_null
+            
+          - name: driver_status_events_raw
+            description: Shows status of driver for an event 
+            columns:
+              - name: status
+                description: status of the driver for a trip which should either be 'online' or 'offline'
+                data_tests:
+                  - accepted_values:
+                      arguments: 
+                        values: ['online', 'offline']
+                
+          - name: drivers_raw
+            description: Record of drivers who work for beejan.
+            columns:
+              - name: driver_id
+                description: Primary key of the drivers table
+                data_tests:
+                  - unique
+                  - not_null
+          - name: payments_raw
+            description: One record per payment transaction.
+            columns:
+               - name: payment_id
+                 description: Primary key of the payments table
+                 data_tests:
+                    - unique
+                    - not_null  
+          - name: riders_raw
+            description: Record of riders who use beejan's services.
+            columns:
+              - name: rider_id
+                description: Primary key of the riders table
+                data_tests:
+                  - unique
+                  - not_null
+          - name: trips_raw
+            description: One record per order. Includes cancelled and deleted orders.
+            config:
+              freshness:
+                warn_after: {count: 1, period: hour}
+                error_after: {count: 2, period: hour}
+              loaded_at_field: updated_at   #this allows us to track when the data was last updated and use that information for freshness checks
+            columns:
+              - name: trip_id
+                description: Primary key of the trips table
+                data_tests:
+                  - unique
+                  - not_null
+           

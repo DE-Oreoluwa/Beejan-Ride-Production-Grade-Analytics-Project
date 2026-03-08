@@ -1,0 +1,66 @@
+version: 2
+
+models:
+
+  - name: int_tripdura_mins
+    description: Int_model that calculates the duration of each trip in minutes.
+    columns:
+      - name: trip_id
+        description: The unique identifier for each trip (primary key).
+        tests:
+          - not_null
+          - unique
+
+
+  - name: int_rider_lifetimevalue
+    description: Int_model that calculates the lifetime value of each rider based on their total spending.
+    columns:
+      - name: rider_id
+        description: The unique identifier for each rider (primary key).
+        tests:
+          - not_null
+
+
+  - name: int_net_revenue
+    description: Int_model that calculates the net revenue for each trip.
+    columns:
+      - name: driver_id
+        description: The unique identifier for each driver (primary key).
+        tests:
+          - not_null
+
+
+  - name: int_fraud_indicators
+    description: Int_model that identifies fraud indicators for each trip.
+    columns:
+      - name: trip_id
+        description: The unique identifier for each trip (primary key).
+        tests:
+          - not_null
+
+
+  - name: int_driver_lifetimetrip
+    description: Int_model that calculates the total number of trips completed by each driver.
+    columns:
+      - name: driver_id
+        description: The unique identifier for each driver (primary key).
+        tests:
+          - not_null
+
+
+  - name: int_corporate_tripflag
+    description: Int_model that flags whether a trip was a corporate trip.
+    columns:
+      - name: trip_id
+        description: The unique identifier for each trip (primary key).
+        tests:
+          - not_null
+
+
+  - name: int_driver_churn 
+    description: Int_model that calculates the churn rate of drivers.
+    columns:
+      - name: driver_id
+        description: The unique identifier for each driver (primary key).
+        tests:
+          - not_null
