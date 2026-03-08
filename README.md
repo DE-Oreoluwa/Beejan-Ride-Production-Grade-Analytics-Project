@@ -1,13 +1,11 @@
 # Beejan Ride Analytics Engineering Project (Airbyte + dbt Core + BigQuery)
 
 ## Architecture diagram
-
 Raw → Staging → Intermediate → Mart
-![alt text](image.png)
+
 ## ERD
 The mart layer follows a star schema design where `fact_trips` acts as the central fact table connected to other dimension tables for analytical queries.
 
-![alt text](image-1.png)
 ## Data flow explanation 
 The project used Airbyte to extract data from Postgres (Source) and loaded it in BigQuery (Destination) warehouse.
 With the use of dbt Core, the transformation was done with three layers which are Staging, Intermediate and Mart layer.
