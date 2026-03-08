@@ -2,9 +2,10 @@
 
 ## Architecture diagram
 Raw → Staging → Intermediate → Mart
-
+`Architectural Diagram.png`
 ## ERD
 The mart layer follows a star schema design where `fact_trips` acts as the central fact table connected to other dimension tables for analytical queries.
+`ERD.png`
 
 ## Data flow explanation 
 The project used Airbyte to extract data from Postgres (Source) and loaded it in BigQuery (Destination) warehouse.
