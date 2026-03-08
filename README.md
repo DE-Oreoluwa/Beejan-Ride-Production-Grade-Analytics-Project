@@ -74,7 +74,7 @@ It was initially used for `fact_trips` but later changed to table materializatio
 Model descriptions, column documentation, tags, and ownership metadata are included in the project. This allows dbt to automatically generate a documentation site that improves transparency and collaboration for data stakeholders.
 And this is the link to the dbt docs documentation: http://localhost:8080/#!/overview/dbt_beejanproject 
 
-## Tradeoffs
+### Tradeoffs
 - The mart layer uses a star schema to simplify analytical queries and improve performance for aggregations and reporting. While this structure is well suited for analytics workloads, it introduces some data redundancy compared to a fully normalized schema. The decision prioritizes query simplicity and performance over strict normalization, which is common in data warehouse design.
 - For large datasets such as trips, incremental processing can improve performance by only transforming newly added data instead of rebuilding entire tables. However, incremental models can add complexity when handling late-arriving records or historical updates. A full refresh may still be required occasionally to ensure data consistency.
 - The project focuses on a simple and maintainable data model with a limited number of dimension tables. While more advanced modeling could include additional dimensions (such as a date dimension or deeper operational metrics), the current design prioritizes clarity and ease of use for analytical queries.
