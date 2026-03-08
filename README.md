@@ -2,7 +2,8 @@
 
 ## Architecture diagram
 Raw → Staging → Intermediate → Mart
-`Architectural Diagram.png`
+![Alt text](https://github.com/DE-Oreoluwa/Beejan-Ride-Production-Grade-Analytics-Project/blob/1a2b196feb09175d7fe70a2ee0b19b0f6f40af1a/Architectural%20Diagram.png)
+
 ## ERD
 The mart layer follows a star schema design where `fact_trips` acts as the central fact table connected to other dimension tables for analytical queries.
 `ERD.png`
